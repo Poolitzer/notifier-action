@@ -1,10 +1,13 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Notify'
+description: 'Notify developers of changes to a specific path via submitting a Pull Request'
+author: "Poolitzer"
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  notify-message:
+    description: "Message to comment when a user opens a PR"
+    default: "Heyho, this is a little reminder that someone changed the file(s) here :)"
+  repo-token:
+    description: "Token for the repo. Can be passed in using {{ secrets.GITHUB_TOKEN }}"
+    required: true
 runs:
   using: 'node12'
-  main: 'lib/main.js'
+  main: "lib/main.js"

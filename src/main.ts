@@ -9,10 +9,24 @@ export async function run() {
     if (github.context.payload.repository) {
     }
     else {
-      console.log('No pull request was opened, skipping');
+      console.log('No pull request, skipping');
       return;
     }
     const client: github.GitHub = new github.GitHub(repoToken);
+	const comments = await client.pulls.listReviews({
+		owner: issue.owner,
+		repo: issue.repo,
+		pull_number: issue.number
+	});
+	for (let entry of comments['data']) {
+		if (entry['user']['id'] == 41898282) {
+			if (entry['body'] == notifyMessage){
+				console.log('Already commented, skipping')
+				return;
+			}
+			
+		}
+	};
     await client.pulls.createReview({
       owner: issue.owner,
       repo: issue.repo,
@@ -20,15 +34,6 @@ export async function run() {
       body: notifyMessage,
       event: 'COMMENT'
     });
-	const test = await client.pulls.listReviews({
-		owner: issue.owner,
-		repo: issue.repo,
-		pull_number: issue.number
-	});
-	console.log(test['data']);
-	for (let entry of test['data']) {
-		console.log(entry); // 1, "string", false
-	};
     }
     catch (error) {
       core.setFailed(error.message);

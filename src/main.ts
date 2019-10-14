@@ -6,13 +6,7 @@ export async function run() {
     const notifyMessage: string = core.getInput('notify-message', {required: true});
     const repoToken: string = core.getInput('repo-token', {required: true});
     const issue: {owner: string; repo: string; number: number} = github.context.issue;
-
-    if (github.context.payload.action !== 'opened') {
-      console.log('No issue or pull request was opened, skipping');
-      return;
-    }
     if (github.context.payload.repository) {
-      console.log('Actual a PR');
     }
     else {
       console.log('No pull request was opened, skipping');
@@ -26,6 +20,14 @@ export async function run() {
       body: notifyMessage,
       event: 'COMMENT'
     });
+	const test = await client.pulls.listReviews({
+		owner: issue.owner,
+		repo: issue.repo,
+		pull_number: issue.number
+	});
+	for (let entry of test) {
+		console.log(entry); // 1, "string", false
+	};
     }
     catch (error) {
       core.setFailed(error.message);

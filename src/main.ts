@@ -3,8 +3,7 @@ import * as github from '@actions/github';
 
 export async function run() {
     try {
-    const welcomeMessage: string = core.getInput('welcome-message');
-    const welcomeMessage: string = core.getInput('welcome-message', {required: true});
+    const notifyMessage: string = core.getInput('notify-message', {required: true});
     const repoToken: string = core.getInput('repo-token', {required: true});
     const issue: {owner: string; repo: string; number: number} = github.context.issue;
 
@@ -24,7 +23,7 @@ export async function run() {
       owner: issue.owner,
       repo: issue.repo,
       pull_number: issue.number,
-      body: welcomeMessage,
+      body: notifyMessage,
       event: 'COMMENT'
     });
     }

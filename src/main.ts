@@ -25,6 +25,7 @@ export async function run() {
 		repo: issue.repo,
 		pull_number: issue.number
 	});
+	console.log(test);
 	for (let entry of test) {
 		console.log(entry); // 1, "string", false
 	};

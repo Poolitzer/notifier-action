@@ -6,7 +6,7 @@ This action is notifiying through a review comment when a certain file/path has 
 
 ```workflow
 on:
-  pull_request:
+  pull_request_target:
     paths: 
 jobs:
   job:

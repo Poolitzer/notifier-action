@@ -2,12 +2,16 @@
 
 This action is notifiying through a review comment when a certain file/path has changed.
 
-# Setup
+# Example Setup
 
 ```workflow
 on:
   pull_request_target:
     paths: 
+
+permissions:
+ pull-requests: write 
+
 jobs:
   job:
     runs-on: ubuntu-latest
@@ -19,6 +23,5 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-# Actual example:
-[here](https://github.com/Poolitzer/python-telegram-bot/blob/github_actions/.github/workflows/example_change_warning.yml)
-
+# Real life example:
+https://github.com/python-telegram-bot/python-telegram-bot/blob/master/.github/workflows/example_notifier.yml

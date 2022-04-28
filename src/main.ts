@@ -1,5 +1,5 @@
-import * as core from '@actions/core';
-import * as github from '@actions/github';
+const github = require('@actions/github');
+const core = require('@actions/core');
 
 export async function run() {
     try {
@@ -12,8 +12,8 @@ export async function run() {
       console.log('No pull request, skipping');
       return;
     }
-    const client: github.GitHub = new github.GitHub(repoToken);
-	const comments = await client.pulls.listReviews({
+    const octokit = new github.getOctokit(repoToken);
+	const comments = await octokit.rest.pulls.listReviews({
 		owner: issue.owner,
 		repo: issue.repo,
 		pull_number: issue.number
@@ -27,7 +27,7 @@ export async function run() {
 			
 		}
 	};
-    await client.pulls.createReview({
+    await octokit.rest.pulls.createReview({
       owner: issue.owner,
       repo: issue.repo,
       pull_number: issue.number,
@@ -36,7 +36,7 @@ export async function run() {
     });
     }
     catch (error) {
-      core.setFailed(error.message);
+      core.setFailed(error);
       throw error;
     }
 }
